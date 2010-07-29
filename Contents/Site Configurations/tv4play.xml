@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site site="http://plexapp.com/player/tv4play.php"
+	plugin="http://www.tv4play.se/polopoly_fs/.*/embedvideo.swf"
+	initialState="waiting-for-volume"
+	version="1.0">
+
+	<crop x="0" y="210" width="690" height="388" />
+	<seekbar type="simple">
+		<start x="47" y="771" />
+		<end x="523" y="771" />
+		<played>
+			<color rgb="500a0c" />
+			<color rgb="680d10" />
+			<color rgb="690e10" />
+			<color rgb="6a0e11" />
+			<color rgb="771013" />
+			<color rgb="7b1014" />
+			<color rgb="7d1114" />
+			<color rgb="7f1114" />
+			<color rgb="891216" />
+			<color rgb="8d1317" />
+			<color rgb="951418" />
+			<color rgb="a1161a" />
+			<color rgb="a5161b" />
+			<color rgb="a9171b" />
+			<color rgb="be1a1f" />
+		</played>
+	</seekbar>
+
+	<!-- WAITING FOR VOLUME -->
+	<state name="waiting-for-volume">
+		<event>
+			<condition>
+				<color x="13" y="770" rgb="ffffff" />
+			</condition>
+			<action>
+				<click x="645" y="773" />
+				<goto state="playing" />
+			</action>
+		</event>
+	</state>
+
+	<!-- PLAYING -->
+	<state name="playing">
+		<event>
+			<condition>
+				<command name="pause" />
+			</condition>
+			<action>
+				<click x="15" y="771" />
+				<goto state="paused" />
+			</action>
+		</event>
+
+		<!-- Video ends -->
+		<event>
+			<condition>
+				<url matches="http://secure-dk.imrworldwide.com/.*du=([1-9][\.0-9]*)" />
+			</condition>
+			<action>
+				<goto state="end" />
+			</action>
+		</event>
+	</state>
+
+	<!-- PAUSED -->
+	<state name="paused">
+		<event>
+			<condition>
+				<command name="play" />
+			</condition>
+			<action>
+				<click x="15" y="771" />
+				<goto state="playing" />
+			</action>
+		</event>
+	</state>
+</site>

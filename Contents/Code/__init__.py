@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from PMS import *
-from PMS.Objects import *
-from PMS.Shortcuts import *
 import re
 
 ###################################################################################################
@@ -77,7 +74,7 @@ def TV4Programs(sender, title, thumb, useXml=True, programId=None):
       url = re.findall('^(.+?)\?view=xml', url)[0]
       dir.Append(Function(DirectoryItem(TV4Views, title=name, thumb=thumb), title=name, url=url, thumb=thumb))
   else:
-    content = HTTP.Request( PROGRAMS_HTML % programId )
+    content = HTTP.Request( PROGRAMS_HTML % programId ).content
     programs = XML.ElementFromString(content).xpath('//ul/li/div/p/a')
     for program in programs:
       # Cleanup the name
@@ -103,7 +100,7 @@ def TV4Views(sender, title, url, thumb, lookupId=True):
     url = PROGRAM_VIEWS_XML % programId
 
   # Get the page content first with HTTP.Request so we can check if we get something back
-  content = HTTP.Request(url, cacheTime=CACHE_INTERVAL_LONG)
+  content = HTTP.Request(url, cacheTime=CACHE_INTERVAL_LONG).content
 
   if content != None and content != '':
     views = XML.ElementFromString(content).xpath('/v:xml/v:category/v:views/v:view', namespaces=NS_VIDEOAPI)
